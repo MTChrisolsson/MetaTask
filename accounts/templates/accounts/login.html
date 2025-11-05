@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% load hosts %}
+
+{% block title %}Log In - Mediap{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <h2>Log In</h2>
+    
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+            <p class="error-message">Incorrect Username / Password, Try again.</p>
+        {% endif %}
+        
+        {{ form.as_p }}
+        
+        <button type="submit">Log In</button>
+        
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+    
+    <p>Har du inget konto? <a href="{% url 'register' %}">Register here</a>.</p>
+</div>
+{% endblock %}
+
+<style>
+    /* Lägg detta i din globala CSS-fil (static/css/global.css) för stil */
+    .login-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    .error-message {
+        color: red;
+        font-weight: bold;
+    }
+</style>
