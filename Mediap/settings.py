@@ -134,7 +134,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static", # <-- LÄGG TILL DENNA RAD
+    BASE_DIR / "static",
 ]
 
 # Denna är viktig för deployment. Denna mapp kommer Django fylla med alla statics

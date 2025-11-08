@@ -1,0 +1,12 @@
+{% comment %} Profile Page {% endcomment %}
+<h1>User Profile</h1>
+<p>First Name: {{ user.first_name }}</p>
+<p>Last Name: {{ user.last_name }}</p>
+<p>Organization: {{ user.organization }}</p>
+<p>Email: {{ user.email }}</p>
+
+{% comment %} Logout Button {% endcomment %}
+<form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>

@@ -16,6 +16,9 @@ urlpatterns = [
     
     # Utloggning
     path('logout/', views.logout_view, name='logout'),
+    
+    #Profile
+    path('profile/', views.profile_index, name='profile_index'),
 
     # Registrering
     path('register/', views.register_view, name='register'),

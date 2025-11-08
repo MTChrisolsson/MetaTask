@@ -13,33 +13,19 @@
 <body>
     <header>
         <nav>
-            <a href="{% url 'home_index' %}">Home (Mediap.org)</a> |
-            <a href="{% host_url 'home_index' %}">CFlows (Bilhantering)</a>
-            {% comment %} User Authentication Links {% endcomment %}
+            {% comment %} Navigation {% endcomment %}
+            <a href="{% url 'home_index' %}">Home</a> |
+            <a {% comment %} Comming soon: href="{% url 'about' %}" {% endcomment %}>About</a> |
+            {% comment  %} Profile link {% endcomment %}
             {% if user.is_authenticated %}
-                | Welcome, {{ user.get_full_name|default:user.email }}
-                <form  action="{% url 'logout' %}" method="post">
-                    {% csrf_token %}
-                       <button type="submit" style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">Logout</button>
-                </form>
+                <a href="{% url 'profile_index' %}">Profile</a> |
+                {% comment %} Logout link {% endcomment %}
+                <a href="{% url 'logout' %}">Logout</a> |
             {% else %}
-                | <a href="{% url 'login' %}">Login</a>
-                | <a href="{% url 'register' %}">Register</a>
+                <a href="{% url 'login' %}">Login</a> |
+                <a href="{% url 'register' %}">Sign Up</a> |
             {% endif %}
-            {% comment %} User Profile Links {% endcomment %}
-            {% if user.is_authenticated %}
-                | <a href="{% url 'profile_index' %}">Profile</a>
-            {% else %}
-                | <a href="{% url 'profile_index' %}">Profile</a>
-            {% endif %}
-            {% comment %} Admin Links {% endcomment %}
-            {% if user.is_staff %}
-                | <a href="{% url 'admin:index' %}">Admin</a>
-            {% endif %}
-            {% comment %} Developer Links {% endcomment %}
-            {% if user.is_superuser %}
-                | <a href="{% url 'debug_toolbar:toolbar' request.session.toolbar_session_key %}">Debug</a>
-            {% endif %}
+
         </nav>
     </header>
 

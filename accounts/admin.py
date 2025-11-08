@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from .models import Account, Organization
+from .models import Account, Organization, OrganizationMember
 
 class AccountCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -65,9 +65,23 @@ class AccountAdmin(UserAdmin):
             ),
         }),
     )
+    
+class OrganizationMemberInline(admin.TabularInline):
+    model = OrganizationMember
+    extra = 1
 
 @admin.register(Organization)
 class OrganizationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'is_active', 'created_at')
+    list_display = ('name', 'slug', 'is_active', 'created_at', 'organization_owner')
     search_fields = ('name', 'slug')
     list_filter = ('is_active',)
+    prepopulated_fields = {'slug': ('name',)}
+    inlines = [OrganizationMemberInline]
+    
+@admin.register(OrganizationMember)
+class OrganizationMemberAdmin(admin.ModelAdmin):
+    list_display = ('member', 'organization', 'role', 'joined_at')
+    list_filter = ('organization', 'role')
+    search_fields = ('member__email', 'organization__name')
+    autocomplete_fields = ['member', 'organization']
+

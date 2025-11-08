@@ -7,6 +7,12 @@ from .forms import AddMemberForm, UserRegistrationForm
 
 
 def register_view(request):
+    if  request.user.is_authenticated:
+        return redirect('home_index')
+    """
+    Registers a new user.
+    """
+
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -17,6 +23,11 @@ def register_view(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'accounts/register.html', {'form': form})
+
+@login_required
+def profile_index(request):
+    return render(request, 'accounts/profile_index.html', {'user': request.user})
+
 
 @login_required
 def logout_view(request):
