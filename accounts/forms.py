@@ -55,3 +55,19 @@ class UserRegistrationForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class AddMemberForm(forms.Form):
+    email = forms.EmailField()
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput, required=False)
+    password2 = forms.CharField(label="Confirm Password", widget=forms.PasswordInput, required=False)
+
+    def clean(self):
+        cleaned = super().clean()
+        p1 = cleaned.get('password1')
+        p2 = cleaned.get('password2')
+        if p1 or p2:
+            if p1 != p2:
+                raise forms.ValidationError("Passwords do not match.")
+        return cleaned
