@@ -15,6 +15,7 @@
         <nav>
             {% comment %} Navigation {% endcomment %}
             <a href="{% url 'home_index' %}">Home</a> |
+            <a href="{% url 'cflows_index' %}">CFlows(WIP)</a> |
             <a {% comment %} Comming soon: href="{% url 'about' %}" {% endcomment %}>About</a> |
             {% comment  %} Profile link {% endcomment %}
             {% if user.is_authenticated %}

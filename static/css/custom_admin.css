@@ -1,0 +1,43 @@
+/* Admin styling for Car model */
+.field-status_badge span {
+    display: inline-block;
+    min-width: 80px;
+    text-align: center;
+}
+
+/* Fieldset styling */
+.module h2 {
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+/* JSON field formatting */
+.jsoneditor {
+    max-height: 400px;
+    overflow: auto;
+}
+
+/* Form field grouping */
+.form-row {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.field-box {
+    float: left;
+    margin-right: 20px;
+}
+
+/* Status badges */
+.status-badge {
+    padding: 3px 10px;
+    border-radius: 3px;
+    color: white;
+    font-weight: bold;
+}
+
+.status-active { background-color: #37b24d; }
+.status-inactive { background-color: #ff6b6b; }
+.status-archived { background-color: #868e96; }
+.status-deleted { background-color: #e03131; }

@@ -1,13 +1,96 @@
-{% extends "base.html" %}
+{% extends "cflows_base.html" %}
 {% load static %}
 
 {% block title %}CFlows Bilhantering{% endblock %}
 
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'cflows/css/cflows.css' %}">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 {% endblock %}
 
 {% block content %}
+    
     <h1>CFlows Dashboard</h1>
     <p>Här hanteras alla bilar inom Mediap.</p>
+
+    <div class="filter-car">
+        <h2>Filter Cars</h2>
+        <form id="filterForm">
+            <label for="make">Märke:</label>
+            <input type="text" id="make" name="make" value="{{ filters.make }}">
+
+            <label for="model">Modell:</label>
+            <input type="text" id="model" name="model" value="{{ filters.model }}">
+
+            <label for="year">Årsmodell:</label>
+            <input type="number" id="year" name="year" value="{{ filters.year }}">
+        </form>
+    </div>
+
+    <div id="carList" class="car-list">
+        {% include 'cflows/car_list_partial.html' %}
+    </div>
+
+    <!-- Create Car -->
+    <div class="create-car">
+        <h2>Create a new car</h2>
+        <form method="POST" action="{% url 'car_create' %}">
+            {% csrf_token %}
+            <label for="make">Märke:</label>
+            <input type="text" id="make" name="make" required>
+
+            <label for="model">Modell:</label>
+            <input type="text" id="model" name="model" required>
+
+            <label for="registration_number">Registreringsnummer:</label>
+            <input type="text" id="registration_number" name="registration_number" required>
+
+            <label for="color">Färg:</label>
+            <input type="text" id="color" name="color" required>
+
+            <label for="year">Årsmodell:</label>
+            <input type="number" id="year" name="year" required>
+
+            <label for="mileage">Miltal:</label>
+            <input type="number" id="mileage" name="mileage" required>
+
+            <button type="submit">Skapa bil</button>
+        </form>
+    </div>
+{% endblock %}
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    let filterTimeout;
+
+    $('#filterForm input').on('input', function() {
+        clearTimeout(filterTimeout);
+        filterTimeout = setTimeout(function() {
+            const formData = $('#filterForm').serialize();
+            
+            $.ajax({
+                url: "{% url 'car_filter' %}", // Changed URL to point to car_filter view
+                type: 'GET',
+                data: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                success: function(response) {
+                    $('#carList').html(response);
+                    // Update URL without page reload
+                    history.pushState(null, '', '?' + formData);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }, 300);
+    });
+
+    // Prevent form submission
+    $('#filterForm').on('submit', function(e) {
+        e.preventDefault();
+    });
+});
+</script>
 {% endblock %}

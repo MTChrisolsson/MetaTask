@@ -1,0 +1,13 @@
+{% if cars %}
+    {% for car in cars %}
+    <div class="car-item">
+        <h3>{{ car.make }} {{ car.model }}</h3>
+        <p>Registration: {{ car.registration_number }}</p>
+        <p>Year: {{ car.year }}</p>
+        <p>Color: {{ car.color }}</p>
+        <p>Mileage: {{ car.mileage }}</p>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No cars found matching your criteria.</p>
+{% endif %}
